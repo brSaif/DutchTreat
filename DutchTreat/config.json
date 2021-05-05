@@ -4,5 +4,10 @@
     },
     "ConnectionString": {
         "DutchContextDb": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DutchTreatDb;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true"
+    } ,
+    "Tokens": {
+        "Key": "jdfsmbjfmlbjfmljblmfjlbmfjmldjsdl",
+        "Issuer": "http://localhost:5000",
+        "Audience": "http://localhost:5000"
     } 
 }
