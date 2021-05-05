@@ -24,6 +24,12 @@ namespace DutchTreat
                 })
                 .AddEntityFrameworkStores<DutchContext>();
 
+            services.AddAuthentication()
+                // Default Auth 
+                .AddCookie()
+                // JWT auth for securing API
+                .AddJwtBearer();
+
             services.AddScoped<IDutchRepository, DutchRepository>();
 
             services.AddDbContext<DutchContext>();
