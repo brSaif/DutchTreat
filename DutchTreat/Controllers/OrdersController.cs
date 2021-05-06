@@ -10,6 +10,7 @@ using DutchTreat.Data.Entities;
 using DutchTreat.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,14 +23,16 @@ namespace DutchTreat.Controllers
         private readonly IDutchRepository _repository;
         private readonly ILogger<OrdersController> _logger;
         private readonly IMapper _mapper;
+        private readonly UserManager<StoreUser> _userManager;
 
         public OrdersController(IDutchRepository repository,
-            ILogger<OrdersController> logger,IMapper mapper)
+            ILogger<OrdersController> logger,IMapper mapper,
+            UserManager<StoreUser> userManager)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
-            _mapper = mapper;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -37,7 +40,8 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                var result = _repository.GetAllOrders(includeItems);
+                var username = User.Identity.Name;
+                var result = _repository.GetAllOrdersByUser(username,includeItems);
                 if (result != null) return Ok(_mapper.Map<IEnumerable<OrderViewModel>>(result));
                 return NotFound();
             }
@@ -55,7 +59,7 @@ namespace DutchTreat.Controllers
         {
             try
             {
-                var result = (_repository.GetOrderById(id));
+                var result = (_repository.GetOrderById(User.Identity.Name,id));
                 if (result != null)
                 {
                     return Ok(_mapper.Map<Order,OrderViewModel>(result));
@@ -71,7 +75,7 @@ namespace DutchTreat.Controllers
         }
 
         
-        public IActionResult Post([FromBody]OrderViewModel model)
+        public async Task<IActionResult> Post([FromBody]OrderViewModel model)
         {
             try
             {
@@ -89,6 +93,10 @@ namespace DutchTreat.Controllers
 
                     // Check if date specified otherwise set it.
                     if (newOrder.OrderDate == DateTime.MinValue) newOrder.OrderDate = DateTime.UtcNow;
+
+                    var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+                    newOrder.User = currentUser;
 
                     _repository.AddEntity(newOrder);
 

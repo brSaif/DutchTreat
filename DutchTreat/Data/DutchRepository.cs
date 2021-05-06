@@ -47,12 +47,28 @@ namespace DutchTreat.Data
             }
         }
 
-        public Order GetOrderById(int id)
+        public IEnumerable<Order> GetAllOrdersByUser(string username, bool includeItems)
+        {
+            if (includeItems)
+            {
+                return _ctx.Orders
+                    .Where(u => u.User.UserName == username)
+                    .Include(c => c.Items)
+                    .ThenInclude(c => c.Product)
+                    .ToList();
+            }
+            else
+            {
+                return _ctx.Orders.ToList();
+            }
+        }
+
+        public Order GetOrderById(string username,int id)
         {
             return _ctx.Orders
                 .Include(c => c.Items)
-                .ThenInclude<Order, OrderItem, Product>(c => c.Product)
-                .FirstOrDefault(c => c.Id == id);
+                .ThenInclude(c => c.Product)
+                .FirstOrDefault(c => c.Id == id && c.User.UserName == username );
         }
 
         public void AddEntity(object model)
