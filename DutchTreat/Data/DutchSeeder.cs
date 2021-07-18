@@ -52,13 +52,13 @@ namespace DutchTreat.Data
             if (!_context.Products.Any())
             {
                 // Need to seed dev data
-                var FilePath = Path.Combine("Data/art.json");
+                var FilePath = Path.Combine(_env.WebRootPath,"Data/art.json");
                 var json = File.ReadAllText(FilePath);
                 var products = JsonSerializer.Deserialize<IEnumerable<Product>>(json);
 
                 _context.Products.AddRange(products);
 
-                var order = _context.Orders.Where(o => o.Id == 1).FirstOrDefault();
+                var order = _context.Orders.FirstOrDefault(o => o.Id == 1);
                 if (order != null)
                 {
                     order.User = user;
@@ -73,7 +73,7 @@ namespace DutchTreat.Data
                     };
                 }
 
-                 _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }
