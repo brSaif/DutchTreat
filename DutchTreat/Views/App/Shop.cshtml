@@ -1,28 +1,42 @@
 ﻿@model IEnumerable<Product>
+@*@{
+        ViewBag.Title = "Shop";
+        Layout = "_Layout";
+    }*@
 
-@{
-    ViewBag.Title = "Shop";
-    Layout = "_Layout";
+@section Scripts
+{
+    <script src="~/client/polyfills.2352ea4f13340821c61d.js" asp-append-version="true"></script>
+    <script src="~/client/runtime.7d2e27576b419591df3b.js" asp-append-version="true"></script>
+    <script src="~/client/main.a9ada8e3981a67faeb8c.js" asp-append-version="true"></script>
 }
 
-<h2>Shop</h2>
-<p> Count : @Model.Count()</p>
-<div class="row">
-    @foreach (var p in Model)
-    {
-        <div class="col-md-3">
-            <div class="border bg-light rounded p-1">
-                <img src="~/img/VanGogh.jpg" class="img-fluid" />
-                <h3>@p.Category - @p.Size</h3>
-                <ul class="products-props">
-                    <li>Price: $@p.Price</li>
-                    <li>Artist: @p.Artist</li>
-                    <li>Title: @p.Title</li>
-                    <li>Description: @p.ArtDescription</li>
-                </ul>
-                <button id="buyButton" class="btn btn-success">Buy</button>
-            </div>
-        </div>
+@section Header
+{
 
-    }
-</div>
+    <link href="~/client/styles.31d6cfe0d16ae931b73c.css" rel="stylesheet" asp-append-version="true" />
+}
+
+<app-shop></app-shop>
+
+@*<h2>Shop</h2>
+    <p> Count : @Model.Count()</p>
+    <div class="row">
+        @foreach (var p in Model)
+        {
+            <div class="col-md-3">
+                <div class="border bg-light rounded p-1">
+                    <img src="~/img/VanGogh.jpg" class="img-fluid" />
+                    <h3>@p.Category - @p.Size</h3>
+                    <ul class="products-props">
+                        <li>Price: $@p.Price</li>
+                        <li>Artist: @p.Artist</li>
+                        <li>Title: @p.Title</li>
+                        <li>Description: @p.ArtDescription</li>
+                    </ul>
+                    <button id="buyButton" class="btn btn-success">Buy</button>
+                </div>
+            </div>
+
+        }
+    </div>*@
