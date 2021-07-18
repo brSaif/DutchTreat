@@ -3,7 +3,7 @@
         "Favorite": "Black"
     },
     "ConnectionString": {
-        "DutchContextDb": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DutchTreatDb;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true"
+        "DutchContextDb": "Data Source=.;Initial Catalog=DutchTreatDb;Integrated Security=True;Connect Timeout=30;MultipleActiveResultSets=true"
     } ,
     "Tokens": {
         "Key": "jdfsmbjfmlbjfmljblmfjlbmfjmldjsdl",
